@@ -12,6 +12,7 @@ export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = (values, { resetForm }) => {
     console.log(values);
     onSubmit(values.query);
+
     // resetForm();
   };
   return (

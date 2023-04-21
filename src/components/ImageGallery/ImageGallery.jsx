@@ -10,7 +10,7 @@ import { LoadMoreBtn } from '../Button/Button';
 import toast, { Toaster } from 'react-hot-toast';
 
 export const ImageGallery = ({ query }) => {
-  const [images, setImages] = useState(null);
+  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [largeImageURL, setLargeImageURL] = useState('');
@@ -19,10 +19,11 @@ export const ImageGallery = ({ query }) => {
 
   //==== Якщо новий запрос ====
   useEffect(() => {
-    setPage(1);
-    if (query) {
+    // setPage(1);
+    console.log('fetch from texteffect, page =  ', page);
+    if (query && page === 1) {
       setShowLoadMoreBtn(false);
-      setImages(null);
+      setImages([]);
       setLoading(true);
       getData(query, 1)
         .then(data => {
@@ -37,6 +38,7 @@ export const ImageGallery = ({ query }) => {
           if (data.totalHits === 0) {
             setLoading(false);
             setShowLoadMoreBtn(false);
+            setPage(1);
             return toast.error(
               'Sorry, there are no images matching your search query. Please try again.'
             );
@@ -45,7 +47,7 @@ export const ImageGallery = ({ query }) => {
             setLoading(false);
             setImages(imgSet);
             setShowLoadMoreBtn(false);
-            // setPage(1);
+            setPage(1);
 
             return toast.success("You've reached the end of search results.");
           }
@@ -55,7 +57,7 @@ export const ImageGallery = ({ query }) => {
           }
           setImages(imgSet);
           setLoading(false);
-          // setPage(1);
+          setPage(1);
           setShowLoadMoreBtn(true);
 
           console.log('totalHits', data.totalHits);
@@ -67,12 +69,6 @@ export const ImageGallery = ({ query }) => {
           );
         });
     }
-  }, [query]);
-
-  //==== Якщо змінилася сторінка ====
-  useEffect(() => {
-    // const newQuery = query.trim();
-
     if (page !== 1) {
       setLoading(true);
       setShowLoadMoreBtn(false);
@@ -91,15 +87,65 @@ export const ImageGallery = ({ query }) => {
           setImages(prevImages => [...prevImages, ...imgSet]);
           setLoading(false);
           setShowLoadMoreBtn(false);
-
           return toast.success("You've reached the end of search results.");
         }
+
         setImages(prevImages => [...prevImages, ...imgSet]);
         setLoading(false);
         setShowLoadMoreBtn(true);
       });
     }
-  }, [page]);
+  }, [page, query]);
+
+  // //==== Якщо змінилася сторінка ====
+  // useEffect(() => {
+  //   // const newQuery = query.trim();
+  //   if (page === 1) return;
+  //   if (query) {
+  //     setLoading(true);
+  //     setShowLoadMoreBtn(false);
+
+  //     getData(query, page).then(data => {
+  //       const imgSet = data.hits.map(({ id, webformatURL, largeImageURL }) => ({
+  //         id,
+  //         webformatURL,
+  //         largeImageURL,
+  //       }));
+  //       // =======================D
+  //       if (data.status === 'error') {
+  //         return Promise.reject(data.message);
+  //       }
+
+  //       if (data.totalHits === 0) {
+  //         setLoading(false);
+  //         setShowLoadMoreBtn(false);
+  //         return toast.error(
+  //           'Sorry, there are no images matching your search query. Please try again.'
+  //         );
+  //       }
+  //       // =======================
+
+  //       //Розрахунок загальної кількості сторінок
+  //       const totalPages = Math.ceil(data.totalHits / 12);
+  //       console.log('totalPages', totalPages);
+  //       if (page === totalPages) {
+  //         setImages(prevImages => [...prevImages, ...imgSet]);
+  //         setLoading(false);
+  //         setShowLoadMoreBtn(false);
+
+  //         return toast.success("You've reached the end of search results.");
+  //       }
+  //       if (page !== 1) {
+  //         setImages(prev => [...prev, ...imgSet]);
+  //       } else {
+  //         setImages(imgSet);
+  //       }
+  //       // setImages(prevImages => [...prevImages, ...imgSet]);
+  //       setLoading(false);
+  //       setShowLoadMoreBtn(true);
+  //     });
+  //   }
+  // }, [page, query]);
 
   const closeModal = () => {
     setShowModal(false);
