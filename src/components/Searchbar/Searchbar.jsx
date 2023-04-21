@@ -5,13 +5,13 @@ import { Header, SearchForm, SearchFormBtn, Input } from './Searchbar.styled';
 import { BsSearch } from 'react-icons/bs';
 
 const initialValues = {
-  qwery: '',
+  query: '',
 };
 
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = (values, { resetForm }) => {
     console.log(values);
-    onSubmit(values.qwery);
+    onSubmit(values.query);
     // resetForm();
   };
   return (
@@ -26,7 +26,7 @@ export const Searchbar = ({ onSubmit }) => {
 
             <Input
               type="text"
-              name="qwery"
+              name="query"
               autoComplete="off"
               autoFocus
               placeholder="Search images and photos"
