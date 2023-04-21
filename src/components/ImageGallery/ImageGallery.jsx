@@ -99,7 +99,7 @@ export const ImageGallery = ({ query }) => {
         setShowLoadMoreBtn(true);
       });
     }
-  }, [page, query]);
+  }, [page]);
 
   const closeModal = () => {
     setShowModal(false);
