@@ -21,7 +21,6 @@ export const ImageGallery = ({ query }) => {
   useEffect(() => {
     setPage(1);
     if (query) {
-      // setPage(1);
       setShowLoadMoreBtn(false);
       setImages(null);
       setLoading(true);
@@ -52,7 +51,6 @@ export const ImageGallery = ({ query }) => {
           }
           if (data.status === 'error') {
             setLoading(false);
-            // setError(true); //???========================
             return Promise.reject(data.message);
           }
           setImages(imgSet);
@@ -64,7 +62,6 @@ export const ImageGallery = ({ query }) => {
         })
         .catch(error => {
           setLoading(false);
-          // setError(true); //???==========================
           return toast.error(
             'ERROR. Sorry, something goes wrong. Please try again.'
           );
