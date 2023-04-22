@@ -54,6 +54,7 @@ export const App = () => {
         }
         if (page === totalPages) {
           setLoading(false);
+          setImages(prevImages => [...prevImages, ...imgSet]);
           setShowLoadMoreBtn(false);
           return toast.success(
             `You've reached the end of search results '${query}'.`
@@ -61,7 +62,7 @@ export const App = () => {
         }
         if (page === 1) {
           setImages(imgSet);
-        } else {
+        } else if (page !== totalPages) {
           setImages(prevImages => [...prevImages, ...imgSet]);
         }
 

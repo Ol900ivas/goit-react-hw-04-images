@@ -15,10 +15,10 @@ export const Searchbar = ({ onSubmit }) => {
       toast('Enter your query, please');
       return;
     }
-    console.log(values.query);
+    console.log(`input query: '${values.query.trim()}'`);
     onSubmit(values.query.trim());
 
-    // actions.resetForm();
+    actions.resetForm();
   };
 
   return (
